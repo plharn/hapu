@@ -7,12 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --warm:#E8D5C4;--sage:#8BAF8E;--deep:#4A6741;
-  --soft:#F5EDE3;--accent:#D4845A;
-  --text:#3A3028;--muted:#8C7B6E;
-  --ai:#EEE8E0;--user:#4A6741;
-}
+:root{--warm:#E8D5C4;--sage:#8BAF8E;--deep:#4A6741;--soft:#F5EDE3;--accent:#D4845A;--text:#3A3028;--muted:#8C7B6E;--ai:#EEE8E0;--user:#4A6741;}
 html,body{height:100%;background:#F0E8DC;display:flex;align-items:center;justify-content:center;font-family:'Noto Sans TC',sans-serif}
 .shell{background:var(--soft);border-radius:20px;box-shadow:0 20px 60px rgba(74,103,65,0.18);overflow:hidden;width:420px;height:780px;display:flex;flex-direction:column}
 .topbar{background:var(--deep);padding:18px 20px 14px;display:flex;align-items:center;gap:12px}
@@ -20,7 +15,6 @@ html,body{height:100%;background:#F0E8DC;display:flex;align-items:center;justify
 .av::after{content:'';position:absolute;bottom:1px;right:1px;width:12px;height:12px;border-radius:50%;background:#7ED99A;border:2px solid var(--deep)}
 .topbar h1{font-family:'Noto Serif TC',serif;color:white;font-size:19px;font-weight:600;letter-spacing:.06em}
 .topbar p{color:rgba(255,255,255,0.6);font-size:11px;margin-top:2px}
-/* key screen */
 #keyScreen{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 28px;gap:18px}
 #keyScreen .emoji{font-size:48px;margin-bottom:4px}
 #keyScreen h2{font-family:'Noto Serif TC',serif;font-size:18px;color:var(--deep);font-weight:600}
@@ -32,7 +26,6 @@ html,body{height:100%;background:#F0E8DC;display:flex;align-items:center;justify
 #keyErr{font-size:12px;color:#c0392b;display:none}
 .keyNote{font-size:11px;color:var(--muted);text-align:center;line-height:1.8}
 .keyNote a{color:var(--sage)}
-/* chat screen */
 #chatScreen{display:none;flex-direction:column;flex:1;overflow:hidden}
 .moods{background:white;padding:10px 16px;border-bottom:.5px solid var(--warm);display:flex;align-items:center;gap:8px;overflow-x:auto;scrollbar-width:none}
 .moods::-webkit-scrollbar{display:none}
@@ -83,8 +76,6 @@ html,body{height:100%;background:#F0E8DC;display:flex;align-items:center;justify
     <div class="av">🌿</div>
     <div><h1>哈普 Hapu</h1><p>正向心理學陪談師 · 隨時在這裡</p></div>
   </div>
-
-  <!-- 金鑰輸入畫面 -->
   <div id="keyScreen">
     <div class="emoji">🌱</div>
     <h2>歡迎來到哈普</h2>
@@ -92,13 +83,8 @@ html,body{height:100%;background:#F0E8DC;display:flex;align-items:center;justify
     <input id="keyInput" type="password" placeholder="sk-ant-api03-..." onkeydown="if(event.key==='Enter')startApp()">
     <div id="keyErr">金鑰格式不對，請確認後再試</div>
     <button id="startBtn" onclick="startApp()">開始對話 ↑</button>
-    <div class="keyNote">
-      金鑰只存在你的裝置上，不會傳送到其他地方<br>
-      還沒有金鑰？<a href="https://console.anthropic.com" target="_blank">點這裡免費申請 →</a>
-    </div>
+    <div class="keyNote">金鑰只存在你的裝置上，不會傳送到其他地方<br>還沒有金鑰？<a href="https://console.anthropic.com" target="_blank">點這裡免費申請 →</a></div>
   </div>
-
-  <!-- 對話畫面 -->
   <div id="chatScreen">
     <div class="moods">
       <span class="ml">今天感覺：</span>
@@ -120,12 +106,7 @@ html,body{height:100%;background:#F0E8DC;display:flex;align-items:center;justify
       </div>
       <div class="m ai fin">
         <div class="sdr">哈普</div>
-        <div class="bbl">
-          <div class="card">
-            <div class="ctitle">✨ 今日正向小語</div>
-            <div class="cbody" id="quote"></div>
-          </div>
-        </div>
+        <div class="bbl"><div class="card"><div class="ctitle">✨ 今日正向小語</div><div class="cbody" id="quote"></div></div></div>
       </div>
     </div>
     <div class="qr" id="qr">
@@ -135,144 +116,75 @@ html,body{height:100%;background:#F0E8DC;display:flex;align-items:center;justify
       <button class="qb" onclick="quick('我最近有一件讓我感到有成就感的事')">✨ 說說近況</button>
     </div>
     <div class="bottom">
-      <div class="iwrap">
-        <textarea id="inp" placeholder="告訴哈普你的心情…" onkeydown="onKey(event)" oninput="grow(this)"></textarea>
-      </div>
+      <div class="iwrap"><textarea id="inp" placeholder="告訴哈普你的心情…" onkeydown="onKey(event)" oninput="grow(this)"></textarea></div>
       <button class="sbtn" id="sbtn" onclick="send()">↑</button>
     </div>
   </div>
 </div>
-
 <script>
 const SYS=`你是「哈普（Hapu）」，一位受過正向心理治療（PPT）完整訓練的諮商心理師。你的臨床取向整合了 Rashid & Seligman（2018）的 PPT 模型、Carl Rogers 的個人中心取向，以及動機式晤談（MI）。
 
-【PPT 的核心精神——你必須真正活出來，不是說出來】
-PPT 與一般支持性諮商的根本差異：你不只是傾聽痛苦，你同時在痛苦裡尋找「這個人身上有什麼力量讓他走到今天」。心理困擾與心理健康是兩條獨立的軌道，你的工作是兩條軌道都照顧。
+【PPT 的核心精神】
+你不只是傾聽痛苦，你同時在痛苦裡尋找「這個人身上有什麼力量讓他走到今天」。
 
-【對話的自然節奏——約5-6輪後開始帶入PPT精神】
-
-第1-2輪：讓對方說事情。不問感受，感受跟著事情浮現。用「然後呢」「後來呢」帶著他說。
-
-第3輪：當他說完一段，輕輕反映你聽到的情緒。一句就好。
-
-第4輪起：開始留意對話裡出現的正向線索——
-- 他提到「還好有…」「還是撐過來了」→ 停在這裡，問：「那個撐過來的力量是什麼？」
-- 他描述了某個他做得到的事 → 輕輕說出你看到的優勢，問他是否也這樣看自己
-- 他說到某個人或事讓他感到有一點好 → 「那對你來說是什麼感覺？」
-
-第5-6輪後：根據對話自然帶入其中一種探索（不要全部一起）：
-- 優勢盤點：「我聽到你在這件事裡展現了很大的…，你自己有沒有注意到？」
-- 感恩探索：「在這段時間裡，有沒有一個人或一件小事，讓你覺得還好有它？」
-- 意義感：「這件事對你來說，背後有什麼是你真的在乎的？」
-- 希望與未來：「如果這件事有一點點往好的方向走，會是什麼樣子？」
-- 三件好事：「今天有沒有一件，哪怕很小的事，還不錯的？」
+【對話節奏】
+第1-2輪：讓對方說事情，不問感受，用「然後呢」帶著他說。
+第3輪：輕輕反映你聽到的情緒，一句就好。
+第4輪起：留意正向線索——「還好有…」「撐過來了」→ 停在這裡問：「那個撐過來的力量是什麼？」
+第5-6輪後自然帶入其中一種：優勢盤點、感恩探索、意義感、希望、三件好事。
 
 【說話方式】
-- 每次 1-2 句，最多 40 字。
-- 正體中文，口語自然，像真實的人說話。
-- 開放式問句，用「什麼」「怎麼」開頭。
-- PPT 的介入是輕的、好奇的，不是「現在我們來做個練習」。
+每次1-2句，最多40字。正體中文，口語自然。問句用「什麼」「怎麼」開頭。
 
 【絕對禁止】
-- 不用「好的」「我在這裡」「謝謝你告訴我」開頭。
-- 不主動介紹理論名詞（PERMA、品格優勢）。
-- 不說空洞鼓勵（你很棒、你一定可以的）。
-- 不在對方還沒說完時給建議。
-- 一次只問一個問題。
+不用「好的」「我在這裡」「謝謝你告訴我」開頭。不說空洞鼓勵。一次只問一個問題。
 
 【危機處理】
-若出現自傷或輕生訊號，先溫柔回應這份痛苦，再提供台灣 1925 安心專線。
-
-你的存在是陪伴，不是解決。`;
+若出現自傷或輕生訊號，先溫柔回應，再提供台灣 1925 安心專線。`;
 
 const QS=['撐過去的每一次，都悄悄變成了你的力量。','感受不需要被解決，它只需要被看見。','你已經比你以為的更有韌性。','慢下來，不是退步，是讓自己喘一口氣。','你現在的狀態，不代表你永遠的樣子。','找到一件今天讓你感到還好的小事，那就夠了。','不是每件事都要想通，有時候只是帶著它繼續走。','你值得被好好對待，包括被自己。','困難的事說出口，本身就需要勇氣。','生命裡有些時刻，只需要有人陪著坐一下。','你的感受是真實的，不需要為它道歉。','成長有時候很安靜，安靜到你自己都沒發現。','今天能走到這裡，就已經是一種答案了。','有時候，給自己一點寬容，比努力更重要。','你不需要改變過去，只需要選擇如何走向未來。'];
 
-let apiKey='';
-let hist=[],busy=false;
+let apiKey='',hist=[],busy=false;
 
 function startApp(){
   const k=document.getElementById('keyInput').value.trim();
-  if(!k.startsWith('sk-ant-')){
-    document.getElementById('keyErr').style.display='block';
-    return;
-  }
+  if(!k.startsWith('sk-ant-')){document.getElementById('keyErr').style.display='block';return;}
   apiKey=k;
   document.getElementById('keyScreen').style.display='none';
   const cs=document.getElementById('chatScreen');
-  cs.style.display='flex';
-  cs.style.flexDirection='column';
-  cs.style.flex='1';
-  cs.style.overflow='hidden';
-  const nt=()=>{const d=new Date();return d.getHours()+':'+String(d.getMinutes()).padStart(2,'0')};
+  cs.style.display='flex';cs.style.flexDirection='column';cs.style.flex='1';cs.style.overflow='hidden';
   document.getElementById('t0').textContent=nt();
   document.getElementById('quote').textContent='「'+QS[new Date().getDate()%QS.length]+'」';
   document.getElementById('inp').focus();
 }
 
 const nt=()=>{const d=new Date();return d.getHours()+':'+String(d.getMinutes()).padStart(2,'0')};
-
-function grow(el){
-  el.style.height='22px';
-  el.style.height=Math.min(el.scrollHeight,120)+'px';
-}
-
-function setMood(b,m){
-  document.querySelectorAll('.mb').forEach(x=>x.classList.remove('on'));
-  b.classList.add('on');
-  const el=document.getElementById('inp');
-  el.value='我今天感覺'+m;
-  grow(el);el.focus();
-}
-
-function onKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}}
-
-function quick(t){
-  if(busy)return;
-  document.getElementById('qr').style.display='none';
-  go(t);
-}
-
+function grow(el){el.style.height='22px';el.style.height=Math.min(el.scrollHeight,120)+'px';}
+function setMood(b,m){document.querySelectorAll('.mb').forEach(x=>x.classList.remove('on'));b.classList.add('on');const el=document.getElementById('inp');el.value='我今天感覺'+m;grow(el);el.focus();}
+function onKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}}
+function quick(t){if(busy)return;document.getElementById('qr').style.display='none';go(t);}
 function send(){
   if(busy)return;
   const el=document.getElementById('inp');
   const t=el.value.trim();
   if(!t)return;
-  el.value='';
-  el.style.height='22px';
+  el.value='';el.style.height='22px';
   document.getElementById('qr').style.display='none';
   go(t);
 }
-
 function addMsg(role,html){
-  const c=document.getElementById('chat');
-  const d=document.createElement('div');
+  const c=document.getElementById('chat'),d=document.createElement('div');
   d.className='m '+role+' fin';
-  d.innerHTML=role==='ai'
-    ?'<div class="sdr">哈普</div><div class="bbl">'+html+'</div><div class="mt">'+nt()+'</div>'
-    :'<div class="bbl">'+html+'</div><div class="mt">'+nt()+'</div>';
+  d.innerHTML=role==='ai'?'<div class="sdr">哈普</div><div class="bbl">'+html+'</div><div class="mt">'+nt()+'</div>':'<div class="bbl">'+html+'</div><div class="mt">'+nt()+'</div>';
   c.appendChild(d);c.scrollTop=c.scrollHeight;
 }
-
-function showT(){
-  const c=document.getElementById('chat');
-  const d=document.createElement('div');
-  d.className='m ai fin';d.id='tid';
-  d.innerHTML='<div class="sdr">哈普</div><div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
-  c.appendChild(d);c.scrollTop=c.scrollHeight;
-}
-
-function hideT(){const e=document.getElementById('tid');if(e)e.remove()}
-
-function addProg(){
-  const f=document.getElementById('fill'),p=document.getElementById('pct');
-  const v=Math.min(100,(parseInt(f.style.width)||0)+8);
-  f.style.width=v+'%';p.textContent=v+'%';
-}
+function showT(){const c=document.getElementById('chat'),d=document.createElement('div');d.className='m ai fin';d.id='tid';d.innerHTML='<div class="sdr">哈普</div><div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';c.appendChild(d);c.scrollTop=c.scrollHeight;}
+function hideT(){const e=document.getElementById('tid');if(e)e.remove();}
+function addProg(){const f=document.getElementById('fill'),p=document.getElementById('pct');const v=Math.min(100,(parseInt(f.style.width)||0)+8);f.style.width=v+'%';p.textContent=v+'%';}
 
 async function go(text){
   busy=true;
-  const btn=document.getElementById('sbtn');
-  btn.disabled=true;
+  document.getElementById('sbtn').disabled=true;
   addMsg('u',text.replace(/\n/g,'<br>'));
   hist.push({role:'user',content:text});
   showT();addProg();
@@ -284,16 +196,14 @@ async function go(text){
     });
     const data=await r.json();
     const reply=data.content.map(i=>i.text||'').join('');
-    hideT();
-    addMsg('ai',reply.replace(/\n/g,'<br>'));
+    hideT();addMsg('ai',reply.replace(/\n/g,'<br>'));
     hist.push({role:'assistant',content:reply});
     addProg();
-  }catch{
-    hideT();
-    addMsg('ai','哈普暫時無法連線 🌿 請確認金鑰是否正確。');
+  }catch(e){
+    hideT();addMsg('ai','哈普暫時無法連線 🌿 請確認金鑰是否正確。');
   }
   busy=false;
-  btn.disabled=false;
+  document.getElementById('sbtn').disabled=false;
 }
 </script>
 </body>
